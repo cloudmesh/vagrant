@@ -17,11 +17,19 @@ to our advantage while only exposing the needed functionality.
 Manual Page
 ------------
 
-  cm vbox version
-  cm vbox image list [--format=FORMAT]
-  cm vbox vm list [--format=FORMAT]
-  cm vbox vm boot NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
-  cm vbox create NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
+::
+
+    Usage:
+      cm-vbox version
+      cm-vbox image list [--format=FORMAT]
+      cm-vbox vm list [--format=FORMAT]
+      cm-vbox vm delete NAME
+      cm-vbox create NAME ([--memory=MEMORY]
+                           [--image=IMAGE]
+                           [--script=SCRIPT] | list)
+      cm-vbox vm boot NAME ([--memory=MEMORY]
+                            [--image=IMAGE]
+                            [--script=SCRIPT] | list)
 
 
 Source Code

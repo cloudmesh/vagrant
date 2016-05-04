@@ -21,7 +21,7 @@ import setuptools
 from setuptools import setup, find_packages
 import os
 import sys
-from cloudmesh_client import __version__
+from cloudmesh_vagrant import __version__
 import platform
 
 if sys.version_info < (2, 7, 10):
@@ -85,6 +85,7 @@ setup(
     entry_points={
         'console_scripts': [
             'cm-vbox = cloudmesh_vagrant.cm_vbox:main',
+            'cm-authors = cloudmesh_client.common.GitInfo:print_authors',
         ],
     },
 )

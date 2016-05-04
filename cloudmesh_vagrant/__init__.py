@@ -2,6 +2,7 @@ from .vm.vm import vm
 from .image.image import image
 from cloudmesh_client.common.Shell import Shell
 
+__version__ = "1.0"
 
 def version(verbose=False):
     result = Shell.execute("vagrant", ["version"])
