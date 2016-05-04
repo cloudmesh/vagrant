@@ -2,6 +2,7 @@
   cm vbox version
   cm vbox image list [--format=FORMAT]
   cm vbox vm list [--format=FORMAT]
+  cm vbox create NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
 
   cm -h | --help | --version
 """
@@ -10,11 +11,18 @@ import cloudmesh_vagrant as vagrant
 from cloudmesh_client.common.dotdict import dotdict
 from pprint import pprint
 from cloudmesh_client.common.Printer import Printer
+from cloudmesh_client.common.Shell import Shell
 
 
 # pprint (vagrant.vm.list())
 # vagrant.vm.execute("w2", "uname")
 # pprint (vagrant.image.list())
+
+defaults = dotdict()
+defaults.memory = 1024
+defaults.image =  "ubuntu/trusty64"
+defaults.script =  None
+
 
 def convert(lst, id="name"):
     d = {}
@@ -79,7 +87,6 @@ if __name__ == '__main__':
     arg = dotdict(docopt(__doc__, version='0.1'))
     arg.format = arg["--format"] or "table"
 
-    pprint(arg)
 
     if arg.version:
         print(vagrant.version())
@@ -92,3 +99,20 @@ if __name__ == '__main__':
         LIST_PRINT(l,
                    arg.format,
                    order=["name", "state", "id", "provider", "directory"])
+
+    elif arg.create and arg.list:
+
+        result = Shell.cat("{NAME}/Vagrantfile".format(**arg))
+        print (result)
+
+    elif arg.create:
+
+        arg.memory = arg["--memory"] or defaults.memory
+        arg.image = arg["--image"] or defaults.iamge
+        arg.script = arg["--script"] or defaults.script
+
+        vagrant.vm.create(
+            name=arg.NAME,
+            memory=arg.memory,
+            image=arg.image,
+            provision=arg.script)
