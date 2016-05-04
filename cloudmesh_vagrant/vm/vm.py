@@ -4,36 +4,35 @@ import textwrap
 import os
 from cloudmesh_client.shell.console import Console
 
-class vm(object):
 
-    @classmethod                
+class vm(object):
+    @classmethod
     def create(cls, **kwargs):
 
         arg = dotdict(kwargs)
-        
+
         if not os.path.exists(arg.name):
             os.makedirs(arg.name)
-    
+
         config = cls.vagrantfile(**kwargs)
 
         with open('{name}/Vagrantfile'.format(**arg), 'w') as f:
             f.write(config)
 
-        
-    @classmethod    
+    @classmethod
     def vagrantfile(cls, **kwargs):
 
         arg = dotdict(kwargs)
-        
+
         provision = kwargs.get("script", None)
 
         if provision is not None:
-            arg.provision = 'config.vm.provision "shell", inline: <<-SHELL\n' 
+            arg.provision = 'config.vm.provision "shell", inline: <<-SHELL\n'
             for line in textwrap.dedent(provision).split("\n"):
                 if line.strip() != "":
-                    arg.provision += 12 * " " + "    " + line + "\n" 
+                    arg.provision += 12 * " " + "    " + line + "\n"
             arg.provision += 12 * " " + "  " + "SHELL\n"
-            
+
         # the 12 is derived from the indentation of Vagrant in the script
         script = textwrap.dedent("""
             Vagrant.configure(2) do |config|
@@ -55,8 +54,8 @@ class vm(object):
             end
         """.format(**arg))
 
-        return(script)
-    
+        return (script)
+
     @classmethod
     def list(cls):
 
@@ -68,16 +67,16 @@ class vm(object):
             data.provider = entry[2]
             data.state = entry[3]
             data.directory = entry[4]
-        
+
             return data
-        
+
         result = Shell.vagrant("global-status")
-        
+
         if "There are no active" in result:
             return None
 
         lines = []
-        print 
+        print
         for line in result.split("\n")[2:]:
             if line == " ":
                 break
@@ -85,24 +84,23 @@ class vm(object):
                 lines.append(convert(line))
         return lines
 
-    
     @classmethod
     def delete(cls, name):
         result = Shell.vagrant("destroy")
         print result
 
-    @classmethod        
+    @classmethod
     def boot(cls, **kwargs):
 
         arg = dotdict(kwargs)
         arg.cwd = kwargs.get("cwd", None)
-        
+
         vms = cls.to_dict(cls.list())
-        
+
         if arg.name in vms:
             Console.error("vm {name} already booted".format(**arg), traceflag=False)
             return None
-        #print result
+        # print result
 
         else:
             cls.create(**kwargs)
@@ -110,25 +108,24 @@ class vm(object):
                                    cwd=arg.name)
             return result
 
-
-    @classmethod                
+    @classmethod
     def resume(cls, name):
         result = Shell.execute("vagrant", ["resume", name])
         print result
 
-    @classmethod                
+    @classmethod
     def suspend(cls, name):
         result = Shell.execute("vagrant", ["suspend", name])
         print result
-        
-    @classmethod        
+
+    @classmethod
     def execute(cls, name, command, cwd=None):
 
         vms = cls.to_dict(cls.list())
-        
+
         arg = "ssh {} -c {}".format(name, command)
-        print ("ARG:",  arg)
-        result = Shell.execute("vagrant", ["ssh", name, "-c", command], cwd =vms[name]["directory"] )
+        print ("ARG:", arg)
+        result = Shell.execute("vagrant", ["ssh", name, "-c", command], cwd=vms[name]["directory"])
         print result
 
     @classmethod
@@ -137,4 +134,3 @@ class vm(object):
         for entry in lst:
             d[entry[id]] = entry
         return d
-        
