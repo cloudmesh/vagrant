@@ -3,6 +3,7 @@
   cm vbox image list [--format=FORMAT]
   cm vbox vm list [--format=FORMAT]
   cm vbox create NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
+  cm vbox boot NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
 
   cm -h | --help | --version
 """
@@ -18,10 +19,13 @@ from cloudmesh_client.common.Shell import Shell
 # vagrant.vm.execute("w2", "uname")
 # pprint (vagrant.image.list())
 
-defaults = dotdict()
-defaults.memory = 1024
-defaults.image =  "ubuntu/trusty64"
-defaults.script =  None
+def defaults():
+    d = dotdict()
+    d.memory = 1024
+    d.image = "ubuntu/trusty64"
+    d.script = None
+    return d
+
 
 
 def convert(lst, id="name"):
@@ -29,6 +33,7 @@ def convert(lst, id="name"):
     for entry in lst:
         d[entry[id]] = entry
     return d
+
 
 # pprint (convert(vagrant.vm.list()))
 # pprint (convert(vagrant.image.list()))
@@ -68,6 +73,7 @@ vagrant.vm.boot(
     """)
 '''
 
+
 def LIST_PRINT(l, output, order=None):
     if arg.format in ["yaml", "dict", "json"]:
         l = convert(l)
@@ -86,7 +92,6 @@ if __name__ == '__main__':
 
     arg = dotdict(docopt(__doc__, version='0.1'))
     arg.format = arg["--format"] or "table"
-
 
     if arg.version:
         print(vagrant.version())
@@ -107,12 +112,28 @@ if __name__ == '__main__':
 
     elif arg.create:
 
-        arg.memory = arg["--memory"] or defaults.memory
-        arg.image = arg["--image"] or defaults.iamge
-        arg.script = arg["--script"] or defaults.script
+        d = defaults()
+
+        arg.memory = arg["--memory"] or d.memory
+        arg.image = arg["--image"] or d.image
+        arg.script = arg["--script"] or d.script
 
         vagrant.vm.create(
             name=arg.NAME,
             memory=arg.memory,
             image=arg.image,
-            provision=arg.script)
+            script=arg.script)
+
+    elif arg.boot:
+
+        d = defaults()
+
+        arg.memory = arg["--memory"] or d.memory
+        arg.image = arg["--image"] or d.image
+        arg.script = arg["--script"] or d.script
+
+        vagrant.vm.boot(
+            name=arg.NAME,
+            memory=arg.memory,
+            image=arg.image,
+            script=arg.script)

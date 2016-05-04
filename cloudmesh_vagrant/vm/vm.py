@@ -3,7 +3,7 @@ from cloudmesh_client.common.dotdict import dotdict
 import textwrap
 import os
 from cloudmesh_client.shell.console import Console
-
+from pprint import pprint
 
 class vm(object):
     @classmethod
@@ -32,6 +32,8 @@ class vm(object):
                 if line.strip() != "":
                     arg.provision += 12 * " " + "    " + line + "\n"
             arg.provision += 12 * " " + "  " + "SHELL\n"
+        else:
+            arg.provision = ""
 
         # the 12 is derived from the indentation of Vagrant in the script
         script = textwrap.dedent("""
@@ -50,7 +52,7 @@ class vm(object):
                  # vb.gui = true
                  vb.memory = "{memory}"
               end
-              {provision}   
+              {provision}
             end
         """.format(**arg))
 
@@ -104,8 +106,14 @@ class vm(object):
 
         else:
             cls.create(**kwargs)
-            result = Shell.execute("vagrant", ["up", arg.name],
+            Console.ok("{name} created".format(**arg))
+            Console.ok("{name} booting ...".format(**arg))
+
+            result = Shell.execute("vagrant",
+                                   ["up", arg.name],
                                    cwd=arg.name)
+            Console.ok("{name} ok.".format(**arg))
+
             return result
 
     @classmethod
