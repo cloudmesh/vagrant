@@ -87,8 +87,11 @@ class vm(object):
         return lines
 
     @classmethod
-    def delete(cls, name):
-        result = Shell.vagrant("destroy")
+    def delete(cls, name=None):
+
+        result = Shell.execute("vagrant",
+                               ["destroy", "-f", name],
+                               cwd=name)
         print result
 
     @classmethod

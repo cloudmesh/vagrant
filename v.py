@@ -2,8 +2,9 @@
   cm vbox version
   cm vbox image list [--format=FORMAT]
   cm vbox vm list [--format=FORMAT]
+  cm vbox vm delete NAME
   cm vbox create NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
-  cm vbox boot NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
+  cm vbox vm boot NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
 
   cm -h | --help | --version
 """
@@ -39,39 +40,6 @@ def convert(lst, id="name"):
 # pprint (convert(vagrant.image.list()))
 # vms = convert(vagrant.vm.list())
 # vagrant.vm.execute("w2", "uname")
-
-'''
-f = vagrant.vm.vagrantfile(
-    name="w2",
-    memory=1024,
-    image="ubuntu/trusty64",
-    script="""
-       sudo apt-get update
-    """)
-
-# print (f)
-
-vagrant.vm.create(
-    name="w2",
-    memory=1024,
-    image="ubuntu/trusty64",
-    script="""
-       sudo apt-get update
-    """)
-
-
-'''
-# print (vagrant.version())
-
-'''
-vagrant.vm.boot(
-    name="w2",
-    memory=1024,
-    image="ubuntu/trusty64",
-    script="""
-       sudo apt-get update
-    """)
-'''
 
 
 def LIST_PRINT(l, output, order=None):
@@ -137,3 +105,12 @@ if __name__ == '__main__':
             memory=arg.memory,
             image=arg.image,
             script=arg.script)
+
+    elif arg.delete:
+
+        result = vagrant.vm.delete(name=arg.NAME)
+        print(result)
+
+    else:
+
+        print "use help"
