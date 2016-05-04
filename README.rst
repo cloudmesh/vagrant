@@ -20,8 +20,8 @@ Manual Page
   cm vbox version
   cm vbox image list [--format=FORMAT]
   cm vbox vm list [--format=FORMAT]
+  cm vbox vm boot NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
   cm vbox create NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
-  cm vbox boot NAME ([--memory=MEMORY] [--image=IMAGE] [--script=SCRIPT] | list)
 
 
 Source Code
@@ -67,5 +67,13 @@ Destroy a vm
 python v.py vbox vm delete w12
 
 which deletes the specified vm
+
+Create a Vagrantfile
+^^^^^^^^^^^^^^^^^^^^
+
+python v.py vbox create w12
+
+creates a Vagrantfile in ./w12/Vagrantfile
+
 
 
