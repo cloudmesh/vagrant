@@ -12,8 +12,8 @@
       cm-vbox vm boot NAME ([--memory=MEMORY]
                             [--image=IMAGE]
                             [--script=SCRIPT] | list)
-
-      cm -h | --help | --version
+      cm-vbox vm ssh NAME [-e COMMAND]
+      cm-vbox -h | --help | --version
 """
 from __future__ import print_function
 
@@ -24,6 +24,7 @@ from pprint import pprint
 from cloudmesh_client.common.Printer import Printer
 from cloudmesh_client.common.Shell import Shell
 import sys
+import os
 
 # pprint (vagrant.vm.list())
 # vagrant.vm.execute("w2", "uname")
@@ -121,6 +122,17 @@ def main():
 
         result = vagrant.vm.delete(name=arg.NAME)
         print(result)
+
+    elif arg.ssh:
+
+        if arg.COMMAND is None:
+            os.system("cd {NAME}; vagrant ssh {NAME}".format(**arg))
+        else:
+            result = vagrant.vm.execute(arg.NAME, arg.COMMAND)
+            if result is not None:
+                lines = result.splitlines()[:-1]
+                for line in lines:
+                    print (line)
 
     else:
 
