@@ -1,9 +1,11 @@
+from __future__ import print_function
 from cloudmesh_client.common.Shell import Shell
 from cloudmesh_client.common.dotdict import dotdict
 import textwrap
 import os
 from cloudmesh_client.shell.console import Console
 from pprint import pprint
+
 
 class vm(object):
     @classmethod
@@ -78,7 +80,7 @@ class vm(object):
             return None
 
         lines = []
-        print
+        print()
         for line in result.split("\n")[2:]:
             if line == " ":
                 break
@@ -92,7 +94,7 @@ class vm(object):
         result = Shell.execute("vagrant",
                                ["destroy", "-f", name],
                                cwd=name)
-        print result
+        print(result)
 
     @classmethod
     def boot(cls, **kwargs):
@@ -122,12 +124,12 @@ class vm(object):
     @classmethod
     def resume(cls, name):
         result = Shell.execute("vagrant", ["resume", name])
-        print result
+        print(result)
 
     @classmethod
     def suspend(cls, name):
         result = Shell.execute("vagrant", ["suspend", name])
-        print result
+        print(result)
 
     @classmethod
     def execute(cls, name, command, cwd=None):
@@ -135,9 +137,9 @@ class vm(object):
         vms = cls.to_dict(cls.list())
 
         arg = "ssh {} -c {}".format(name, command)
-        print ("ARG:", arg)
+        print("ARG:", arg)
         result = Shell.execute("vagrant", ["ssh", name, "-c", command], cwd=vms[name]["directory"])
-        print result
+        print(result)
 
     @classmethod
     def to_dict(cls, lst, id="name"):

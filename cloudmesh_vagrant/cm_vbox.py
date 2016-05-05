@@ -15,6 +15,8 @@
 
       cm -h | --help | --version
 """
+from __future__ import print_function
+
 from docopt import docopt
 import cloudmesh_vagrant as vagrant
 from cloudmesh_client.common.dotdict import dotdict
@@ -122,7 +124,7 @@ def main():
 
     else:
 
-        print "use help"
+        print ("use help")
 
 if __name__ == '__main__':
     main(sys.arg)

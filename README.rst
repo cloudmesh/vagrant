@@ -37,6 +37,16 @@ Source Code
 
 * https://github.com/cloudmesh/vagrant
 
+Install
+--------
+
+mkdir cloudmesh
+cd cloudmesh
+git clone https://github.com/cloudmesh/vagrant
+cd vagrant
+python setup.py install
+
+
 Examples
 -------
 
