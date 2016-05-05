@@ -30,7 +30,8 @@ Manual Page
       cm-vbox vm boot NAME ([--memory=MEMORY]
                             [--image=IMAGE]
                             [--script=SCRIPT] | list)
-
+      cm-vbox vm ssh NAME [-e COMMAND]
+      cm-vbox -h | --help | --version
 
 Source Code
 -----------
