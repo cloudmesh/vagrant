@@ -37,14 +37,36 @@ Source Code
 
 * github.com/cloudmesh/vagrant
 
-Install
---------
+Prerequisits
+-------------
 
-mkdir cloudmesh
-cd cloudmesh
-git clone https://github.com/cloudmesh/vagrant
-cd vagrant
-python setup.py install
+Make sure you have the python development libraries and pip installed
+
+Ubuntu
+^^^^^^
+
+::
+
+    sudo apt-get install python-dev
+    sudo apt-get install python-pip
+
+Inastall from pip
+------------------
+
+::
+
+    pip install cloudmesh_vagrant
+
+Install from github
+--------------------
+
+::
+
+    mkdir cloudmesh
+    cd cloudmesh
+    git clone https://github.com/cloudmesh/vagrant
+    cd vagrant
+    python setup.py install
 
 
 Examples
@@ -53,7 +75,9 @@ Examples
 Listing vms
 ^^^^^^^^^^^
 
-python v.py vbox vm list
+List the vms::
+
+    python v.py vbox vm list
 
 +------+---------+---------+------------+----------------------+
 | name | state   | id      | provider   | directory            |
@@ -65,7 +89,10 @@ python v.py vbox vm list
 Listing images
 ^^^^^^^^^^^^^^
 
-python v.py vbox image list
+List the images::
+
+    python v.py vbox image list
+
 +-----------------+------------+--------------+
 | name            | provider   | date         |
 +-----------------+------------+--------------+
@@ -75,23 +102,27 @@ python v.py vbox image list
 Booting vms
 ^^^^^^^^^^^
 
-python v.py vbox vm boot w12
+Start a vm while taking an ubuntu image as default::
 
-which takes an ubuntu image as default
+    python v.py vbox vm boot w12
+
 
 Destroy a vm
 ^^^^^^^^^^^^^
 
-python v.py vbox vm delete w12
+Deletes the specified vm::
 
-which deletes the specified vm
+    python v.py vbox vm delete w12
+
 
 Create a Vagrantfile
 ^^^^^^^^^^^^^^^^^^^^
 
-python v.py vbox create w12
+Creates a Vagrantfile in ./w12/Vagrantfile::
 
-creates a Vagrantfile in ./w12/Vagrantfile
+   python v.py vbox create w12
+
+
 
 
 
