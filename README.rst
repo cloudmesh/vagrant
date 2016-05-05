@@ -35,7 +35,7 @@ Manual Page
 Source Code
 -----------
 
-* https://github.com/cloudmesh/vagrant
+* github.com/cloudmesh/vagrant
 
 Install
 --------
