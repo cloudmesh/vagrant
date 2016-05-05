@@ -78,7 +78,7 @@ Listing vms
 
 List the vms::
 
-    python v.py vbox vm list
+    cm-vbox vm list
 
 +------+---------+---------+------------+----------------------+
 | name | state   | id      | provider   | directory            |
@@ -92,7 +92,7 @@ Listing images
 
 List the images::
 
-    python v.py vbox image list
+    cm-vbox image list
 
 +-----------------+------------+--------------+
 | name            | provider   | date         |
@@ -105,7 +105,24 @@ Booting vms
 
 Start a vm while taking an ubuntu image as default::
 
-    python v.py vbox vm boot w12
+    cm-vbox vm boot w12
+
+
+Login
+^^^^^
+
+To login into a vm you can use the ssh command followed by the VM::
+
+    cm-vbox vm ssh w12
+
+where w12 is the name of the vm.
+
+Executing a command
+^^^^^^^^^^^^^^^^^^^
+
+To just execute a command, use::
+
+    cm-vbox vm ssh w12 -e uname
 
 
 Destroy a vm
@@ -113,7 +130,7 @@ Destroy a vm
 
 Deletes the specified vm::
 
-    python v.py vbox vm delete w12
+    cm-vbox vm delete w12
 
 
 Create a Vagrantfile
@@ -121,7 +138,7 @@ Create a Vagrantfile
 
 Creates a Vagrantfile in ./w12/Vagrantfile::
 
-   python v.py vbox create w12
+   cm-vbox create w12
 
 
 
