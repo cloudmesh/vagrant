@@ -1,5 +1,5 @@
 Cloudmesh Virtualbox/Vagrant Interface
-================================================================
+=======================================
 
 Virtualbox provides a vonvenient way to manage virtual machines on a
 local computer. Graphical user interfaces, a commandline client, but
@@ -48,7 +48,7 @@ python setup.py install
 
 
 Examples
--------
+--------
 
 Listing vms
 ^^^^^^^^^^^

@@ -23,6 +23,8 @@ import os
 import sys
 from cloudmesh_vagrant import __version__
 import platform
+import re
+import io
 
 if sys.version_info < (2, 7, 10):
     print(70 * "#")
@@ -51,7 +53,6 @@ def read(fname):
 
 
 home = os.path.expanduser("~")
-
 
 setup(
     version=__version__,
