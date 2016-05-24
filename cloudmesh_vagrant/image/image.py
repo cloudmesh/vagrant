@@ -1,6 +1,7 @@
 from cloudmesh_client.common.Shell import Shell
 from cloudmesh_client.common.dotdict import dotdict
-
+from cloudmesh_client.shell.console import Console
+import os
 
 class image(object):
     @classmethod
@@ -22,3 +23,15 @@ class image(object):
         for line in result.split("\n"):
             lines.append(convert(line))
         return lines
+
+    @classmethod
+    def add(cls, name):
+
+        result = Shell.execute("vagrant", ["box", "add", name])
+        return result
+
+    @classmethod
+    def find(cls, name):
+        Console.error("not yet implemented")
+        d = {'key': name}
+        os.system (u"open " + u"https://atlas.hashicorp.com/boxes/search?utf8=\&sort=\&provider=\&q={key}".format(**d))

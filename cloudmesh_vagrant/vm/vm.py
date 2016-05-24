@@ -37,6 +37,8 @@ class vm(object):
         else:
             arg.provision = ""
 
+
+
         # the 12 is derived from the indentation of Vagrant in the script
         script = textwrap.dedent("""
             Vagrant.configure(2) do |config|
@@ -45,7 +47,7 @@ class vm(object):
               config.vm.hostname = "{name}"
               config.vm.box = "{image}"
               config.vm.box_check_update = true
-              # config.vm.network "forwarded_port", guest: 80, host: 8080
+              config.vm.network "forwarded_port", guest: 80, host: {port}
 
               # config.vm.network "private_network", ip: "192.168.33.10"
               # config.vm.network "public_network"

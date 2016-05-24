@@ -4,6 +4,8 @@
     Usage:
       cm-vbox version
       cm-vbox image list [--format=FORMAT]
+      cm-vbox image find NAME
+      cm-vbox image add NAME
       cm-vbox vm list [--format=FORMAT]
       cm-vbox vm delete NAME
       cm-vbox create NAME ([--memory=MEMORY]
@@ -11,6 +13,7 @@
                            [--script=SCRIPT] | list)
       cm-vbox vm boot NAME ([--memory=MEMORY]
                             [--image=IMAGE]
+                            [--port=PORT]
                             [--script=SCRIPT] | list)
       cm-vbox vm ssh NAME [-e COMMAND]
       cm-vbox -h | --help | --version
@@ -38,7 +41,8 @@ def defaults():
     """
     d = dotdict()
     d.memory = 1024
-    d.image = "ubuntu/trusty64"
+    d.image = "ubuntu/xenial64"
+    d.port = 8080
     d.script = None
     return d
 
@@ -79,6 +83,14 @@ def main():
         l = vagrant.image.list()
         _LIST_PRINT(l, arg.format, order=["name", "provider", "date"])
 
+    elif arg.image and arg.add:
+        l = vagrant.image.add(arg.NAME)
+        print(l)
+
+    elif arg.image and arg.find:
+        l = vagrant.image.find(arg.NAME)
+        print(l)
+
     elif arg.vm and arg.list:
         l = vagrant.vm.list()
         _LIST_PRINT(l,
@@ -111,12 +123,14 @@ def main():
         arg.memory = arg["--memory"] or d.memory
         arg.image = arg["--image"] or d.image
         arg.script = arg["--script"] or d.script
+        arg.port = arg["--port"] or d.port
 
         vagrant.vm.boot(
             name=arg.NAME,
             memory=arg.memory,
             image=arg.image,
-            script=arg.script)
+            script=arg.script,
+            port=arg.port)
 
     elif arg.delete:
 
