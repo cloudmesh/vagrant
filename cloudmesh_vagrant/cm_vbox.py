@@ -1,23 +1,3 @@
-"""
-::
-
-    Usage:
-      cm-vbox version
-      cm-vbox image list [--format=FORMAT]
-      cm-vbox image find NAME
-      cm-vbox image add NAME
-      cm-vbox vm list [--format=FORMAT]
-      cm-vbox vm delete NAME
-      cm-vbox create NAME ([--memory=MEMORY]
-                           [--image=IMAGE]
-                           [--script=SCRIPT] | list)
-      cm-vbox vm boot NAME ([--memory=MEMORY]
-                            [--image=IMAGE]
-                            [--port=PORT]
-                            [--script=SCRIPT] | list)
-      cm-vbox vm ssh NAME [-e COMMAND]
-      cm-vbox -h | --help | --version
-"""
 from __future__ import print_function
 
 from docopt import docopt
@@ -28,7 +8,7 @@ from cloudmesh_client.common.Printer import Printer
 from cloudmesh_client.common.Shell import Shell
 import sys
 import os
-
+from cloudmesh_vagrant.version import __version__
 # pprint (vagrant.vm.list())
 # vagrant.vm.execute("w2", "uname")
 # pprint (vagrant.image.list())
@@ -41,7 +21,8 @@ def defaults():
     """
     d = dotdict()
     d.memory = 1024
-    d.image = "ubuntu/xenial64"
+    # d.image = "ubuntu/xenial64"
+    d.image = "ubuntu/trusty64"
     d.port = 8080
     d.script = None
     return d
@@ -71,16 +52,44 @@ def _LIST_PRINT(l, output, order=None):
 
 def main():
     """
-    The main method
-    :return: prints the actions to the terminal
-    """
-    arg = dotdict(docopt(__doc__, version='0.1'))
+    ::
+
+        Usage:
+          cm-vbox version [--format=FORMAT]
+          cm-vbox image list [--format=FORMAT]
+          cm-vbox image find NAME
+          cm-vbox image add NAME
+          cm-vbox vm list [--format=FORMAT] [-v]
+          cm-vbox vm delete NAME
+          cm-vbox create NAME ([--memory=MEMORY]
+                               [--image=IMAGE]
+                               [--script=SCRIPT] | list)
+          cm-vbox vm boot NAME ([--memory=MEMORY]
+                                [--image=IMAGE]
+                                [--port=PORT]
+                                [--script=SCRIPT] | list)
+          cm-vbox vm ssh NAME [-e COMMAND]
+          cm-vbox -h | --help | --version
+        """
+    arg = dotdict(docopt(main.__doc__))
     arg.format = arg["--format"] or "table"
+    arg.verbose = arg["-v"]
 
     if arg.version:
-        print(vagrant.version())
+        versions = {
+            "vagrant": {
+               "attribute": "Vagrant Version",
+                "version": vagrant.version(),
+            },
+            "cloudmesh-vbox": {
+                "attribute":"cloudmesh vbox Version",
+                "version": __version__
+            }
+        }
+        _LIST_PRINT(versions, arg.format)
+
     elif arg.image and arg.list:
-        l = vagrant.image.list()
+        l = vagrant.image.list(verbose=arg.verbose)
         _LIST_PRINT(l, arg.format, order=["name", "provider", "date"])
 
     elif arg.image and arg.add:

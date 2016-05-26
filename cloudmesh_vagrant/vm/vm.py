@@ -48,6 +48,7 @@ class vm(object):
               config.vm.box = "{image}"
               config.vm.box_check_update = true
               config.vm.network "forwarded_port", guest: 80, host: {port}
+              config.vm.network "private_network", type: "dhcp"
 
               # config.vm.network "private_network", ip: "192.168.33.10"
               # config.vm.network "public_network"
@@ -63,7 +64,7 @@ class vm(object):
         return script
 
     @classmethod
-    def list(cls):
+    def list(cls, verbose=False):
 
         def convert(line):
             entry = (' '.join(line.split())).split(' ')
@@ -76,8 +77,9 @@ class vm(object):
 
             return data
 
-        result = Shell.vagrant("global-status")
-
+        result = Shell.execute("vagrant", "global-status --prune")
+        if verbose:
+            print(result)
         if "There are no active" in result:
             return None
 
