@@ -61,6 +61,8 @@ def main():
           cm-vbox image add NAME
           cm-vbox vm list [--format=FORMAT] [-v]
           cm-vbox vm delete NAME
+          cm-vbox vm config NAME
+          cm-vbox vm ip NAME [--all]
           cm-vbox create NAME ([--memory=MEMORY]
                                [--image=IMAGE]
                                [--script=SCRIPT] | list)
@@ -74,6 +76,7 @@ def main():
     arg = dotdict(docopt(main.__doc__))
     arg.format = arg["--format"] or "table"
     arg.verbose = arg["-v"]
+    arg.all = arg["--all"]
 
     if arg.version:
         versions = {
@@ -124,6 +127,48 @@ def main():
             memory=arg.memory,
             image=arg.image,
             script=arg.script)
+
+    elif arg.config:
+
+        # arg.NAME
+        d = vagrant.vm.info(name=arg.NAME)
+
+        result = Printer.attribute(d, output=arg.format)
+
+        print (result)
+
+    elif arg.ip:
+
+        data = []
+        result = vagrant.vm.execute(arg.NAME, "ifconfig")
+        if result is not None:
+            lines = result.splitlines()[:-1]
+            for line in lines:
+                if "inet addr" in line:
+                    line = line.replace("inet addr", "ip")
+                    line = ' '.join(line.split())
+                    _adresses = line.split(" ")
+                    address = {}
+                    for element in _adresses:
+                        attribute, value = element.split(":")
+                        address[attribute] = value
+                    data.append(address)
+        if arg.all:
+            d = {}
+            i = 0
+            for e in data:
+                d[str(i)] = e
+                i = i + 1
+            result = Printer.attribute(d, output=arg.format)
+            print(result)
+        else:
+            for element in data:
+                ip = element['ip']
+                if  ip == "127.0.0.1" or ip.startswith("10."):
+                    pass
+                else:
+                    print (element['ip'])
+
 
     elif arg.boot:
 

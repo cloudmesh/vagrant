@@ -64,6 +64,21 @@ class vm(object):
         return script
 
     @classmethod
+    def info(cls, name=None):
+        result = Shell.execute("vagrant",
+                               ["ssh-config"],
+                               cwd=name)
+        lines = result.split("\n")
+        data = {}
+        for line in lines:
+            attribute, value = line.strip().split(" ", 1)
+            if attribute == "IdentityFile":
+                value = value.replace('"','')
+
+            data[attribute] = value
+        return data
+
+    @classmethod
     def list(cls, verbose=False):
 
         def convert(line):
