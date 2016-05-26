@@ -20,18 +20,23 @@ Manual Page
 ::
 
     Usage:
-      cm-vbox version
+      cm-vbox version [--format=FORMAT]
       cm-vbox image list [--format=FORMAT]
-      cm-vbox vm list [--format=FORMAT]
+      cm-vbox image find NAME
+      cm-vbox image add NAME
+      cm-vbox vm list [--format=FORMAT] [-v]
       cm-vbox vm delete NAME
+      cm-vbox vm config NAME
+      cm-vbox vm ip NAME [--all]
       cm-vbox create NAME ([--memory=MEMORY]
                            [--image=IMAGE]
                            [--script=SCRIPT] | list)
       cm-vbox vm boot NAME ([--memory=MEMORY]
                             [--image=IMAGE]
+                            [--port=PORT]
                             [--script=SCRIPT] | list)
       cm-vbox vm ssh NAME [-e COMMAND]
-      cm-vbox -h | --help | --version
+      cm-vbox -h | --help
 
 Source Code
 -----------
@@ -141,6 +146,17 @@ Creates a Vagrantfile in ./w12/Vagrantfile::
    cm-vbox create w12
 
 
+Destroy the directory of the vm
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Assume you like to destroy also the directory with all information about the previously
+run vm you can simple delete it with rm::
+
+  cm-vbox vm delete w12
+  rm -r w12
+
+Please not that wen you delet the directory the list command will automatically remove
+it from the available vms. Hoewver before you delete it is advisable to destroy the vm
+so you do not have the vm any longer running.
 
 

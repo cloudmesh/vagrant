@@ -50,7 +50,6 @@ class vm(object):
               config.vm.network "forwarded_port", guest: 80, host: {port}
               config.vm.network "private_network", type: "dhcp"
 
-              # config.vm.network "private_network", ip: "192.168.33.10"
               # config.vm.network "public_network"
               # config.vm.synced_folder "../data", "/vagrant_data"
               config.vm.provider "virtualbox" do |vb|

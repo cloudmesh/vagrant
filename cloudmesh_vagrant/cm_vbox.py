@@ -50,30 +50,29 @@ def _LIST_PRINT(l, output, order=None):
         pprint(result)
 
 
-def main():
+def do_vbox(argv):
     """
     ::
 
-        Usage:
-          cm-vbox version [--format=FORMAT]
-          cm-vbox image list [--format=FORMAT]
-          cm-vbox image find NAME
-          cm-vbox image add NAME
-          cm-vbox vm list [--format=FORMAT] [-v]
-          cm-vbox vm delete NAME
-          cm-vbox vm config NAME
-          cm-vbox vm ip NAME [--all]
-          cm-vbox create NAME ([--memory=MEMORY]
-                               [--image=IMAGE]
-                               [--script=SCRIPT] | list)
-          cm-vbox vm boot NAME ([--memory=MEMORY]
-                                [--image=IMAGE]
-                                [--port=PORT]
-                                [--script=SCRIPT] | list)
-          cm-vbox vm ssh NAME [-e COMMAND]
-          cm-vbox -h | --help | --version
-        """
-    arg = dotdict(docopt(main.__doc__))
+      Usage:
+        vbox version [--format=FORMAT]
+        vbox image list [--format=FORMAT]
+        vbox image find NAME
+        vbox image add NAME
+        vbox vm list [--format=FORMAT] [-v]
+        vbox vm delete NAME
+        vbox vm config NAME
+        vbox vm ip NAME [--all]
+        vbox create NAME ([--memory=MEMORY]
+                          [--image=IMAGE]
+                          [--script=SCRIPT] | list)
+        vbox vm boot NAME ([--memory=MEMORY]
+                           [--image=IMAGE]
+                           [--port=PORT]
+                           [--script=SCRIPT] | list)
+        vbox vm ssh NAME [-e COMMAND]
+    """
+    arg = dotdict(docopt(do_vbox.__doc__, argv))
     arg.format = arg["--format"] or "table"
     arg.verbose = arg["-v"]
     arg.all = arg["--all"]
@@ -206,5 +205,10 @@ def main():
 
         print ("use help")
 
+def main():
+    args = sys.argv[1:]
+    do_vbox(args)
+
+
 if __name__ == '__main__':
-    main(sys.arg)
+    main()
