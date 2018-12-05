@@ -1,7 +1,7 @@
 Cloudmesh Virtualbox/Vagrant Interface
 =======================================
 
-Virtualbox provides a vonvenient way to manage virtual machines on a
+Virtualbox provides a convenient way to manage virtual machines on a
 local computer. Graphical user interfaces, a commandline client, but
 also vagrant exist to access them. However we noticed that we often
 only need a very small subset to start a vm and to tear it
